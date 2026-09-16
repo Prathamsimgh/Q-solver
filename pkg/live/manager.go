@@ -60,7 +60,7 @@ func (m *LiveSessionManager) Start() error {
 	provider := m.llmService.GetProvider()
 	liveProvider, ok := provider.(llm.LiveProvider)
 	if !ok {
-		m.emitEvent("live:error", "当前模型不支持 Live API")
+		m.emitEvent("live:error", "Current model does not support Live API")
 		return nil
 	}
 
@@ -70,7 +70,7 @@ func (m *LiveSessionManager) Start() error {
 	liveCfg := llm.GetLiveConfig(cfg)
 	session, err := liveProvider.ConnectLive(m.ctx, liveCfg)
 	if err != nil {
-		logger.Println("liveApi连接服务器失败", err)
+		logger.Println("liveApi connection failed", err)
 		m.emitEvent("live:status", "error")
 		m.emitEvent("live:error", err.Error())
 		return err
@@ -84,8 +84,8 @@ func (m *LiveSessionManager) Start() error {
 	// 初始化音频采集
 	m.audioCapture, err = audio.NewLoopbackCapture(nil)
 	if err != nil {
-		logger.Printf("音频采集初始化失败: %v", err)
-		m.emitEvent("live:error", "音频采集初始化失败: "+err.Error())
+		logger.Printf("Audio capture initialization failed: %v", err)
+		m.emitEvent("live:error", "Audio capture initialization failed: "+err.Error())
 		// 音频采集失败，关闭会话
 		session.Close()
 		m.session = nil
@@ -94,8 +94,8 @@ func (m *LiveSessionManager) Start() error {
 	}
 
 	if err := m.audioCapture.Start(); err != nil {
-		logger.Printf("音频采集启动失败: %v", err)
-		m.emitEvent("live:error", "音频采集启动失败: "+err.Error())
+		logger.Printf("Audio capture start failed: %v", err)
+		m.emitEvent("live:error", "Audio capture start failed: "+err.Error())
 		// 音频采集失败，关闭会话和音频设备
 		m.audioCapture.Close()
 		m.audioCapture = nil
@@ -121,18 +121,18 @@ func (m *LiveSessionManager) Stop() {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
-	logger.Println("Live: StopLiveSession 调用")
+	logger.Println("Live: StopLiveSession called")
 
 	// 停止音频采集
 	if m.audioCapture != nil {
-		logger.Println("Live: 停止音频采集")
+		logger.Println("Live: Stopping audio capture")
 		m.audioCapture.Close()
 		m.audioCapture = nil
 	}
 
 	// 关闭会话
 	if m.session != nil {
-		logger.Println("Live: 关闭会话")
+		logger.Println("Live: Closing session")
 		m.session.Close()
 		m.session = nil
 	}
@@ -154,33 +154,33 @@ func (m *LiveSessionManager) IsActive() bool {
 func (m *LiveSessionManager) audioSender(session llm.LiveSession, audioChan <-chan []byte) {
 	defer m.wg.Done()
 
-	logger.Println("Live: 音频发送协程已启动")
+	logger.Println("Live: Audio sender goroutine started")
 	for audioData := range audioChan {
 		if session != nil {
 			if err := session.SendAudio(audioData); err != nil {
-				logger.Printf("Live: 发送音频失败: %v", err)
+				logger.Printf("Live: Failed to send audio: %v", err)
 				// 连接可能已断开，退出循环
 				return
 			}
 		}
 	}
-	logger.Println("Live: 音频发送协程已结束")
+	logger.Println("Live: Audio sender goroutine ended")
 }
 
 // receiveLoop 接收 Live 消息的循环
 func (m *LiveSessionManager) receiveLoop(session llm.LiveSession) {
 	defer m.wg.Done()
 
-	logger.Println("Live: 接收循环已启动")
+	logger.Println("Live: Receive loop started")
 	defer func() {
-		logger.Println("Live: 接收循环结束")
+		logger.Println("Live: Receive loop ended")
 		session.Close()
 	}()
 
 	for {
 		msg, err := session.Receive()
 		if err != nil {
-			logger.Printf("Live: 接收错误: %v", err)
+			logger.Printf("Live: Receive error: %v", err)
 			m.emitEvent("live:status", "disconnected")
 			m.emitEvent("live:error", err.Error())
 			return
@@ -191,25 +191,25 @@ func (m *LiveSessionManager) receiveLoop(session llm.LiveSession) {
 
 		switch msg.Type {
 		case llm.LiveInterrupted:
-			logger.Println("检测到打断")
+			logger.Println("Interruption detected")
 			m.emitEvent("live:Interrupted", msg.Text)
 		case llm.LiveMsgTranscript:
 			m.emitEvent("live:transcript", msg.Text)
 		case llm.LiveMsgInterviewerDone:
-			logger.Println("Live: 面试官说话结束")
+			logger.Println("Live: Interviewer finished speaking")
 			m.emitEvent("live:interviewer-done")
 		case llm.LiveMsgAIText:
 			m.emitEvent("live:ai-text", msg.Text)
 		case llm.LiveMsgToolCall:
-			logger.Printf("Live: 工具调用 %s (ID=%s)", msg.ToolName, msg.ToolID)
+			logger.Printf("Live: Tool call %s (ID=%s)", msg.ToolName, msg.ToolID)
 			if msg.ToolName == "get_screenshot" {
 				m.handleScreenshot(session, msg.ToolID)
 			}
 		case llm.LiveMsgDone:
-			logger.Println("Live: 对话轮完成")
+			logger.Println("Live: Turn complete")
 			m.emitEvent("live:done")
 		case llm.LiveMsgError:
-			logger.Printf("Live: 错误: %s", msg.Text)
+			logger.Printf("Live: Error: %s", msg.Text)
 			m.emitEvent("live:error", msg.Text)
 		}
 	}
@@ -227,8 +227,8 @@ func (m *LiveSessionManager) handleScreenshot(session llm.LiveSession, toolID st
 		cfg.ScreenshotMode,
 	)
 	if err != nil {
-		logger.Printf("Live 截图失败: %v", err)
-		_ = session.SendToolResponse(toolID, "截图失败: "+err.Error())
+		logger.Printf("Live screenshot failed: %v", err)
+		_ = session.SendToolResponse(toolID, "Screenshot failed: "+err.Error())
 		return
 	}
 
@@ -247,16 +247,16 @@ func (m *LiveSessionManager) handleScreenshot(session llm.LiveSession, toolID st
 	// 解码 Base64 为原始图片数据
 	imageData, err := base64.StdEncoding.DecodeString(base64Str)
 	if err != nil {
-		logger.Printf("Live Base64解码失败: %v", err)
-		_ = session.SendToolResponse(toolID, "图片解码失败")
+		logger.Printf("Live Base64 decode failed: %v", err)
+		_ = session.SendToolResponse(toolID, "Image decode failed")
 		return
 	}
 
 	// 发送图片数据给模型
 	err = session.SendToolResponseWithImage(toolID, imageData, mimeType)
 	if err != nil {
-		logger.Printf("Live 发送截图失败: %v", err)
+		logger.Printf("Live send screenshot failed: %v", err)
 	} else {
-		logger.Printf("Live: 已发送屏幕截图给模型 (%d bytes, %s)", len(imageData), mimeType)
+		logger.Printf("Live: Sent screenshot to model (%d bytes, %s)", len(imageData), mimeType)
 	}
 }

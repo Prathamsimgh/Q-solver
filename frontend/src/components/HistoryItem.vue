@@ -1,8 +1,8 @@
 <template>
     <div class="history-item" :class="{ active: isActive }" @click="$emit('select')">
         <div class="history-header">
-            <span class="history-tag">{{ isFirst ? '当前问题' : '历史问题' }}</span>
-            <span v-if="roundsCount > 1" class="rounds-badge">{{ roundsCount }} 轮</span>
+            <span class="history-tag">{{ isFirst ? 'Current' : 'History' }}</span>
+            <span v-if="roundsCount > 1" class="rounds-badge">{{ roundsCount }} Rounds</span>
             <div class="menu-trigger" @click.stop="toggleMenu" ref="menuTriggerRef">
                 <span class="dots">⋮</span>
             </div>
@@ -18,12 +18,12 @@
             <div v-if="menuOpen" class="history-menu" :style="menuStyle" @click.stop>
                 <div class="menu-item" @click="handleExportImage">
                     <span class="menu-icon">🖼️</span>
-                    <span>导出为图片</span>
+                    <span>Export as Image</span>
                 </div>
                 <div class="menu-divider"></div>
                 <div class="menu-item danger" @click="handleDelete">
                     <span class="menu-icon">🗑️</span>
-                    <span>删除此会话</span>
+                    <span>Delete Session</span>
                 </div>
             </div>
         </Transition>

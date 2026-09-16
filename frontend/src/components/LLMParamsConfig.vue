@@ -7,7 +7,7 @@
                     <span class="setting-name">Temperature</span>
                     <span class="setting-badge">{{ temperature.toFixed(1) }}</span>
                 </div>
-                <span class="setting-desc">控制输出的随机性，较低值更精确，较高值更有创意</span>
+                <span class="setting-desc">Controls randomness. Lower is precise, higher is creative.</span>
             </div>
             <div class="setting-control">
                 <span class="range-label">0</span>
@@ -24,7 +24,7 @@
                     <span class="setting-name">Top P</span>
                     <span class="setting-badge">{{ topP.toFixed(2) }}</span>
                 </div>
-                <span class="setting-desc">核采样阈值，控制词汇选择的多样性</span>
+                <span class="setting-desc">Nucleus sampling threshold. Controls diversity.</span>
             </div>
             <div class="setting-control">
                 <span class="range-label">0</span>
@@ -41,7 +41,7 @@
                     <span class="setting-name">Top K</span>
                     <span class="setting-badge">{{ topK }}</span>
                 </div>
-                <span class="setting-desc">采样时考虑的候选词数量</span>
+                <span class="setting-desc">Number of candidates to consider when sampling.</span>
             </div>
             <div class="setting-control">
                 <span class="range-label">1</span>
@@ -55,10 +55,10 @@
         <div class="setting-item">
             <div class="setting-header">
                 <div class="setting-title">
-                    <span class="setting-name">最大输出长度</span>
+                    <span class="setting-name">Max Output Tokens</span>
                     <span class="setting-badge large">{{ formatNumber(maxTokens) }}</span>
                 </div>
-                <span class="setting-desc">模型生成的最大 Token 数量</span>
+                <span class="setting-desc">Maximum number of tokens to generate.</span>
             </div>
             <div class="setting-control">
                 <span class="range-label">1K</span>
@@ -72,10 +72,10 @@
         <div class="setting-item">
             <div class="setting-header">
                 <div class="setting-title">
-                    <span class="setting-name">思考预算</span>
+                    <span class="setting-name">Thinking Budget</span>
                     <span class="setting-badge large">{{ formatNumber(thinkingBudget) }}</span>
                 </div>
-                <span class="setting-desc">思维链推理的最大 Token 数（不能超过最大输出长度）</span>
+                <span class="setting-desc">Max tokens for Chain of Thought (must be <= Max Output Tokens).</span>
             </div>
             <div class="setting-control">
                 <span class="range-label">1K</span>

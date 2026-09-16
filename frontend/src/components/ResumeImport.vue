@@ -7,13 +7,13 @@
                     <div class="upload-icon">📄</div>
                     <div class="upload-pulse"></div>
                 </div>
-                <h3 class="empty-title">导入 PDF 简历</h3>
-                <p class="empty-desc">AI 将在解题时参考您的背景信息，提供更个性化的回答</p>
+                <h3 class="empty-title">Import PDF Resume</h3>
+                <p class="empty-desc">AI will reference your background to provide personalized answers</p>
                 <button class="btn-upload">
                     <span class="btn-icon">📂</span>
-                    选择文件
+                    Select File
                 </button>
-                <p class="empty-hint">支持 .pdf 格式</p>
+                <p class="empty-hint">Supports .pdf format</p>
             </div>
         </div>
 
@@ -35,25 +35,25 @@
                     </div>
                     <div class="file-meta">
                         <span class="file-name">{{ fileName }}</span>
-                        <span class="file-type">PDF 文档</span>
+                        <span class="file-type">PDF Document</span>
                     </div>
                 </div>
                 <div class="file-actions">
                     <!-- Use Markdown Toggle -->
                     <div class="toggle-chip" :class="{ active: useMarkdownResume }"
-                        @click="$emit('update:useMarkdownResume', !useMarkdownResume)" title="使用解析后的 Markdown 文本">
+                        @click="$emit('update:useMarkdownResume', !useMarkdownResume)" title="Use Parsed Markdown Text">
                         <span class="toggle-dot"></span>
-                        <span>Markdown 模式</span>
+                        <span>Markdown Mode</span>
                     </div>
                     <!-- Menu Button -->
                     <div class="menu-wrapper">
                         <button class="btn-menu" @click="showMenu = !showMenu">⋮</button>
                         <div v-if="showMenu" class="dropdown-menu">
                             <div class="menu-item" @click="handleMenuAction('change')">
-                                <span>📂</span> 更换文件
+                                <span>📂</span> Change File
                             </div>
                             <div class="menu-item danger" @click="handleMenuAction('clear')">
-                                <span>🗑️</span> 清除简历
+                                <span>🗑️</span> Clear Resume
                             </div>
                         </div>
                     </div>
@@ -65,30 +65,30 @@
                 <!-- Status Card (no markdown yet) -->
                 <div v-if="!localContent && !isEditing" class="status-card">
                     <div class="status-icon">📄</div>
-                    <h4 class="status-title">文件已就绪</h4>
-                    <p class="status-desc">点击 AI 解析将 PDF 转换为 Markdown 格式</p>
+                    <h4 class="status-title">File Ready</h4>
+                    <p class="status-desc">Click AI Parse to convert PDF to Markdown</p>
 
                     <div class="status-actions">
                         <button class="btn-parse-lg" @click="handleParseClick" :disabled="isParsing">
                             <span v-if="!isParsing">✨</span>
                             <span v-else class="spin">⏳</span>
-                            {{ isParsing ? '解析中...' : 'AI 解析为 Markdown' }}
+                            {{ isParsing ? 'Parsing...' : 'AI Parse to Markdown' }}
                         </button>
                         <button class="btn-secondary-lg" @click="isEditing = true">
-                            📝 手动输入
+                            📝 Manual Entry
                         </button>
                     </div>
 
                     <p v-if="!modelSupportsFile" class="status-warning">
-                        ⚠️ 当前模型可能不支持 PDF 解析
+                        ⚠️ Current model may not support PDF parsing
                     </p>
                 </div>
 
                 <!-- Parsing State -->
                 <div v-else-if="isParsing && !localContent" class="status-card parsing">
                     <span class="spin large">⏳</span>
-                    <h4 class="status-title">AI 正在解析</h4>
-                    <p class="status-desc">正在将 PDF 转换为 Markdown...</p>
+                    <h4 class="status-title">AI Parsing</h4>
+                    <p class="status-desc">Converting PDF to Markdown...</p>
                 </div>
 
                 <!-- Markdown Content -->
@@ -97,14 +97,14 @@
                     <div class="markdown-toolbar">
                         <div class="toolbar-tabs">
                             <button class="toolbar-btn" :class="{ active: !isEditing }" @click="isEditing = false">
-                                预览
+                                Preview
                             </button>
                             <button class="toolbar-btn" :class="{ active: isEditing }" @click="isEditing = true">
-                                编辑
+                                Edit
                             </button>
                         </div>
                         <div class="toolbar-actions">
-                            <button class="btn-reparse" @click="handleParseClick" :disabled="isParsing" title="重新解析">
+                            <button class="btn-reparse" @click="handleParseClick" :disabled="isParsing" title="Reparse">
                                 <span v-if="!isParsing">🔄</span>
                                 <span v-else class="spin">⏳</span>
                             </button>
@@ -114,7 +114,7 @@
                     <!-- Editor -->
                     <div v-if="isEditing" class="editor-wrapper">
                         <textarea v-model="localContent" @input="updateContent" class="md-editor"
-                            placeholder="在此输入或粘贴 Markdown 格式的简历内容..."></textarea>
+                            placeholder="Type or paste Markdown resume content..."></textarea>
                     </div>
 
                     <!-- Preview -->
@@ -128,11 +128,11 @@
             <div v-if="showConfirmDialog" class="dialog-overlay" @click.self="showConfirmDialog = false">
                 <div class="dialog-box">
                     <div class="dialog-icon">⚠️</div>
-                    <h4>模型可能不支持</h4>
-                    <p>当前模型可能不支持 PDF 解析，是否仍要继续？</p>
+                    <h4>Model may not support PDF</h4>
+                    <p>The current model may not support PDF parsing. Continue anyway?</p>
                     <div class="dialog-actions">
-                        <button class="btn-cancel" @click="showConfirmDialog = false">取消</button>
-                        <button class="btn-confirm" @click="confirmParse">继续</button>
+                        <button class="btn-cancel" @click="showConfirmDialog = false">Cancel</button>
+                        <button class="btn-confirm" @click="confirmParse">Continue</button>
                     </div>
                 </div>
             </div>

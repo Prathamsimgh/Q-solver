@@ -10,9 +10,9 @@
       <div class="text-container">
         <div class="status-text">{{ statusText }}</div>
         <div class="sub-text">
-            <span v-if="status === 'loading-model'">正在初始化神经网络...</span>
-            <span v-else-if="status === 'initializing'">系统启动中...</span>
-            <span v-else>请稍候</span>
+            <span v-if="status === 'loading-model'">Initializing AI models...</span>
+            <span v-else-if="status === 'initializing'">Starting system...</span>
+            <span v-else>Please wait</span>
         </div>
       </div>
     </div>
@@ -31,7 +31,7 @@ const props = defineProps({
 
 const statusText = computed(() => {
   switch (props.status) {
-    case 'initializing': return 'GHOST SLOVE'
+    case 'initializing': return 'Q-SOLVER'
     case 'loading-model': return 'LOADING MODELS'
     case 'ready': return 'READY'
     default: return 'PROCESSING'
@@ -49,7 +49,7 @@ const statusText = computed(() => {
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }

@@ -7,3 +7,15 @@ config/config.json
 *.onnx
 *.exe
 !lib/*.dll
+*.log
+*.msi
+*.rar
+*_log.txt
+*_check.txt
+*_doctor.txt
+*_install.txt
+app_status.txt
+gopath.txt
+gcc_check.txt
+build_log2.txt
+install_gcc.txt

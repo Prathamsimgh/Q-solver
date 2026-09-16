@@ -143,12 +143,12 @@ export function useSettings(shortcuts, tempShortcuts, uiState, callbacks) {
    */
   async function refreshModels() {
     if (!tempSettings.apiKey) {
-      if (callbacks.showToast) callbacks.showToast('请先填写 API Key', 'warning')
+      if (callbacks.showToast) callbacks.showToast('Please enter an API key first', 'warning')
       return
     }
     await fetchModels(tempSettings.apiKey, tempSettings.baseURL)
     if (uiState.availableModels.length > 0) {
-      if (callbacks.showToast) callbacks.showToast(`已加载 ${uiState.availableModels.length} 个模型`, 'success')
+      if (callbacks.showToast) callbacks.showToast(`Loaded ${uiState.availableModels.length} models`, 'success')
     }
   }
 
@@ -157,7 +157,7 @@ export function useSettings(shortcuts, tempShortcuts, uiState, callbacks) {
    */
   async function testConnection() {
     if (!tempSettings.model) {
-      if (callbacks.showToast) callbacks.showToast('请先选择模型', 'warning')
+      if (callbacks.showToast) callbacks.showToast('Please select a model first', 'warning')
       return
     }
 
@@ -170,23 +170,23 @@ export function useSettings(shortcuts, tempShortcuts, uiState, callbacks) {
         uiState.connectionStatus = {
           type: 'success',
           icon: '✅',
-          message: `模型 ${tempSettings.model} 连接成功`
+          message: `Connected to ${tempSettings.model}`
         }
-        if (callbacks.showToast) callbacks.showToast('连接测试成功', 'success')
+        if (callbacks.showToast) callbacks.showToast('Connection test succeeded', 'success')
       } else {
         uiState.connectionStatus = {
           type: 'error',
           icon: '❌',
           message: result
         }
-        if (callbacks.showToast) callbacks.showToast('连接测试失败', 'error')
+        if (callbacks.showToast) callbacks.showToast('Connection test failed', 'error')
       }
     } catch (e) {
-      console.error('连接测试异常:', e)
+      console.error('Connection test error:', e)
       uiState.connectionStatus = {
         type: 'error',
         icon: '❌',
-        message: e.message || '连接测试失败'
+        message: e.message || 'Connection test failed'
       }
     } finally {
       uiState.isTestingConnection = false
@@ -208,7 +208,7 @@ export function useSettings(shortcuts, tempShortcuts, uiState, callbacks) {
         }
       }
     } catch (e) {
-      console.error("获取模型列表失败", e)
+      console.error("Failed to load model list", e)
     } finally {
       uiState.isLoadingModels = false
     }
@@ -255,7 +255,7 @@ export function useSettings(shortcuts, tempShortcuts, uiState, callbacks) {
       if (err) {
         if (callbacks.showToast) callbacks.showToast(err)
       } else {
-        if (callbacks.showToast) callbacks.showToast('设置已保存', 'success')
+        if (callbacks.showToast) callbacks.showToast('Settings saved', 'success')
         // 更新本地状态
         Object.assign(settings, tempSettings)
         if (callbacks.resetStatus) callbacks.resetStatus()
@@ -263,8 +263,8 @@ export function useSettings(shortcuts, tempShortcuts, uiState, callbacks) {
         if (callbacks.closeSettings) callbacks.closeSettings()
       }
     } catch (e) {
-      console.error('保存设置失败', e)
-      if (callbacks.showToast) callbacks.showToast('保存失败', 'error')
+      console.error('Failed to save settings', e)
+      if (callbacks.showToast) callbacks.showToast('Save failed', 'error')
     }
   }
 

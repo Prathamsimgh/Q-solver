@@ -206,7 +206,7 @@ func (a *App) TriggerSolve() {
 
 	// Live 模式下禁用手动截图
 	if cfg.UseLiveApi {
-		a.EmitEvent("toast", "当前模式不支持手动截图")
+		a.EmitEvent("toast", "Manual screenshots are unavailable in Live API mode")
 		return
 	}
 
@@ -386,10 +386,10 @@ func (a *App) GetModels(apiKey string, baseURL string) ([]string, error) {
 func (a *App) SaveImageToFile(base64Data string) (bool, error) {
 	// 弹出文件保存对话框
 	filename, err := runtime.SaveFileDialog(a.ctx, runtime.SaveDialogOptions{
-		Title:           "保存图片",
+		Title:           "Save Image",
 		DefaultFilename: "q-solver-export.png",
 		Filters: []runtime.FileFilter{
-			{DisplayName: "PNG 图片", Pattern: "*.png"},
+			{DisplayName: "PNG Image", Pattern: "*.png"},
 		},
 	})
 	if err != nil {

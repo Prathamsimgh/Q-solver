@@ -1,0 +1,15 @@
+{
+    "apiKey": "",
+    "provider": "google",
+    "model": "gemini-pro",
+    "systemPrompt": "You are a helpful AI assistant.",
+    "screenshotMode": "window",
+    "keepContext": true,
+    "useLiveApi": false,
+    "shortcuts": {
+        "solve": {
+            "vkCode": "119",
+            "keyName": "F8"
+        }
+    }
+}

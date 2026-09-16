@@ -91,7 +91,7 @@ func (c *LoopbackCapture) Start() error {
 	c.wg.Add(1)
 	go c.packetizer()
 
-	logger.Println("Loopback 采集已启动（环形缓冲区模式）")
+	logger.Println("Loopback capture started (Ring Buffer mode)")
 	return nil
 }
 
@@ -107,7 +107,7 @@ func (c *LoopbackCapture) packetizer() {
 	for {
 		select {
 		case <-c.stopChan:
-			logger.Println("音频分包器已停止")
+			logger.Println("Audio packetizer stopped")
 			return
 
 		case <-ticker.C:
@@ -118,7 +118,7 @@ func (c *LoopbackCapture) packetizer() {
 				continue
 			}
 			if err != nil {
-				logger.Printf("读取环形缓冲区失败: %v", err)
+				logger.Printf("Failed to read ring buffer: %v", err)
 				continue
 			}
 
@@ -132,7 +132,7 @@ func (c *LoopbackCapture) packetizer() {
 					// 成功发送
 				default:
 					// channel 满了，丢弃此包（或选择覆盖最旧的）
-					logger.Println("音频 channel 已满，丢弃数据包")
+					logger.Println("Audio channel full, dropping packet")
 				}
 			}
 		}
@@ -173,7 +173,7 @@ func (c *LoopbackCapture) Stop() {
 	}
 
 	c.running = false
-	logger.Println("Loopback 采集已停止")
+	logger.Println("Loopback capture stopped")
 }
 
 // Close 释放资源

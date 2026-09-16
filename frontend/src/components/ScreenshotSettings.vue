@@ -1,16 +1,16 @@
 <template>
   <div class="screenshot-settings">
     <div class="preview-area">
-      <div v-if="loading" class="loading">加载中...</div>
-      <img v-else-if="previewImage" :src="previewImage" class="preview-img" @click="showLightbox = true" title="点击放大预览" />
-      <div v-else class="placeholder">点击刷新查看预览</div>
+      <div v-if="loading" class="loading">Loading...</div>
+      <img v-else-if="previewImage" :src="previewImage" class="preview-img" @click="showLightbox = true" title="Click to enlarge" />
+      <div v-else class="placeholder">Click Refresh to preview</div>
     </div>
     
     <div class="controls">
       <div class="form-group">
         <div class="label-row">
-          <label>截图模式</label>
-          <div class="help-icon" @mouseenter="showTooltip($event, '选择截图区域。\n窗口模式：仅截取当前窗口。\n全屏模式：截取整个屏幕。')" @mouseleave="hideTooltip">?</div>
+          <label>Screenshot Mode</label>
+          <div class="help-icon" @mouseenter="showTooltip($event, 'Select area.\nWindow: Only active window.\nFullscreen: Entire screen.')" @mouseleave="hideTooltip">?</div>
         </div>
         
         <div class="mode-selector">
@@ -20,7 +20,7 @@
             @click="setMode('window')"
           >
             <span class="icon">🔲</span>
-            <span class="text">窗口区域</span>
+            <span class="text">Window</span>
           </div>
           <div 
             class="selector-item" 
@@ -28,7 +28,7 @@
             @click="setMode('fullscreen')"
           >
             <span class="icon">🖥️</span>
-            <span class="text">全屏截图</span>
+            <span class="text">Fullscreen</span>
           </div>
         </div>
       </div>
@@ -37,24 +37,24 @@
         <div class="checkbox-wrapper">
           <label>
             <input type="checkbox" v-model="noCompression" @change="updatePreview" />
-            不压缩图片 (原图上传)
+            No Compression (Original)
           </label>
-          <div class="help-icon" @mouseenter="showTooltip($event, '直接上传原始截图。\n体积最大，但能保留所有细节。适合复杂公式或代码。')" @mouseleave="hideTooltip">?</div>
+          <div class="help-icon" @mouseenter="showTooltip($event, 'Uploads original screenshot.\nLargest size, best detail. Good for complex formulas or code.')" @mouseleave="hideTooltip">?</div>
         </div>
       </div>
 
       <div class="form-group" :class="{ disabled: noCompression }">
         <div class="label-row">
-          <label>压缩质量 ({{ quality }})</label>
-          <div class="help-icon" @mouseenter="showTooltip($event, '平衡清晰度与体积。\nOCR 推荐 70-80，过低会导致文字边缘模糊影响识别。')" @mouseleave="hideTooltip">?</div>
+          <label>Quality ({{ quality }})</label>
+          <div class="help-icon" @mouseenter="showTooltip($event, 'Balance clarity and size.\nOCR recommended 70-80. Too low affects text recognition.')" @mouseleave="hideTooltip">?</div>
         </div>
         <input type="range" v-model.number="quality" min="1" max="90" step="1" @change="updatePreview" :disabled="noCompression" />
       </div>
 
       <div class="form-group" :class="{ disabled: noCompression }">
         <div class="label-row">
-          <label>锐化程度 ({{ sharpen }})</label>
-          <div class="help-icon" @mouseenter="showTooltip($event, '增强文字边缘对比度。\n对模糊截图有效，但过高会产生噪点干扰识别。')" @mouseleave="hideTooltip">?</div>
+          <label>Sharpen ({{ sharpen }})</label>
+          <div class="help-icon" @mouseenter="showTooltip($event, 'Enhance edges.\nGood for blurry inputs, but too high creates noise.')" @mouseleave="hideTooltip">?</div>
         </div>
         <input type="range" v-model.number="sharpen" min="0" max="5" step="0.1" @change="updatePreview" :disabled="noCompression" />
       </div>
@@ -63,20 +63,20 @@
         <div class="checkbox-wrapper">
           <label>
             <input type="checkbox" v-model="isGrayscale" @change="updatePreview" :disabled="noCompression" />
-            启用灰度 (Grayscale)
+            Enable Grayscale
           </label>
-          <div class="help-icon" @mouseenter="showTooltip($event, '移除颜色信息。\n显著减小图片体积，通常不影响文字识别准确率。')" @mouseleave="hideTooltip">?</div>
+          <div class="help-icon" @mouseenter="showTooltip($event, 'Remove color.\nReduces size significantly, usually does not affect OCR.')" @mouseleave="hideTooltip">?</div>
         </div>
         <span v-if="imageSize" class="size-badge">{{ imageSize }}</span>
       </div>
       
-      <button class="btn-secondary" @click="updatePreview">刷新预览</button>
+      <button class="btn-secondary" @click="updatePreview">Refresh Preview</button>
     </div>
 
     <Teleport to="body">
       <div v-if="showLightbox" class="lightbox-overlay" @click="showLightbox = false">
         <img :src="previewImage" class="lightbox-img" />
-        <div class="lightbox-hint">点击任意处关闭</div>
+        <div class="lightbox-hint">Click anywhere to close</div>
       </div>
     </Teleport>
 

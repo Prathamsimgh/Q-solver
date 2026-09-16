@@ -18,8 +18,8 @@ export function useSolution(settings) {
   const errorState = reactive({
     show: false,
     icon: '⚠️',
-    title: '出错了',
-    desc: '发生了一个未知错误',
+    title: 'Something went wrong',
+    desc: 'An unknown error occurred',
     rawError: '',
     showDetails: false
   })
@@ -69,7 +69,7 @@ export function useSolution(settings) {
    */
   function createHistoryItem(userScreenshot) {
     return {
-      time: new Date().toLocaleTimeString(),
+      time: new Date().toLocaleTimeString('en-US'),
       rounds: [{
         userScreenshot: userScreenshot || '',
         thinking: '',           // 思维链
@@ -298,7 +298,7 @@ export function useSolution(settings) {
         font-size: 12px;
       ">👤</div>
       <div>
-        <div style="font-weight: 600; font-size: 12px; color: #334155;">问题 ${roundIndex + 1}</div>
+        <div style="font-weight: 600; font-size: 12px; color: #334155;">Question ${roundIndex + 1}</div>
       </div>
     `
     leftPanel.appendChild(userHeader)
@@ -324,7 +324,7 @@ export function useSolution(settings) {
         background: #f8fafc;
         border-radius: 6px;
       `
-      placeholder.textContent = '无截图'
+      placeholder.textContent = 'No screenshot'
       leftPanel.appendChild(placeholder)
     }
 
@@ -365,7 +365,7 @@ export function useSolution(settings) {
         font-size: 12px;
       ">🤖</div>
       <div>
-        <div style="font-weight: 600; font-size: 12px; color: #334155;">AI 回复</div>
+        <div style="font-weight: 600; font-size: 12px; color: #334155;">AI Response</div>
       </div>
     `
     rightPanel.appendChild(aiHeader)
@@ -407,7 +407,7 @@ export function useSolution(settings) {
         width: 900px;
         padding: 28px;
         background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
         color: #1e293b;
         border-radius: 16px;
       `
@@ -423,7 +423,7 @@ export function useSolution(settings) {
           padding-bottom: 12px;
           border-bottom: 1px solid #cbd5e1;
         `
-        title.textContent = `共 ${rounds.length} 轮对话`
+        title.textContent = `${rounds.length} conversation rounds`
         container.appendChild(title)
       }
 
@@ -449,7 +449,7 @@ export function useSolution(settings) {
         <div style="display: flex; align-items: center; gap: 6px;">
           <span style="font-weight: 600;">Q-Solver</span>
         </div>
-        <div>${new Date().toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+        <div>${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
       `
       container.appendChild(footer)
 
@@ -469,11 +469,11 @@ export function useSolution(settings) {
       // 使用后端保存对话框
       const result = await SaveImageToFile(base64Data)
       if (!result) {
-        console.log('用户取消保存')
+        console.log('Save canceled by user')
       }
     } catch (e) {
-      console.error('导出图片失败:', e)
-      alert('导出图片失败: ' + e.message)
+      console.error('Image export failed:', e)
+      alert('Image export failed: ' + e.message)
     }
   }
 

@@ -1,37 +1,37 @@
 import { ref, watch } from 'vue'
 
 export function useStatus(settings) {
-  const statusText = ref('就绪')
+  const statusText = ref('Ready')
   const statusIcon = ref('📝')
 
   function resetStatus() {
     if (!settings.apiKey) {
-      statusText.value = '未配置'
+      statusText.value = 'Unconfigured'
       statusIcon.value = '⚠️'
       return
     }
 
-    // 有 API Key 时显示已连接
-    statusText.value = '已连接'
+    // Show connected state when an API key is configured.
+    statusText.value = 'Connected'
     statusIcon.value = '✅'
   }
   
   function setConnected() {
-    statusText.value = '已连接'
+    statusText.value = 'Connected'
     statusIcon.value = '✅'
   }
   
   function setDisconnected() {
-    statusText.value = '连接失败'
+    statusText.value = 'Connection Failed'
     statusIcon.value = '❌'
   }
   
   function setInvalidKey() {
-    statusText.value = 'Key无效'
+    statusText.value = 'Invalid Key'
     statusIcon.value = '🚫'
   }
 
-  // 监听 settings.apiKey 变化，自动更新状态
+  // Keep the status in sync with the configured API key.
   watch(() => settings.apiKey, (newVal) => {
     resetStatus()
   }, { immediate: true })

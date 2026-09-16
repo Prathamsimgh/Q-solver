@@ -3,24 +3,24 @@
     <div class="top-bar">
       <div class="control-group" :class="{ active: activeButtons.toggle }">
         <span class="key-hint">{{ shortcuts.toggle?.keyName || 'Alt+H' }}</span>
-        <span class="label">隐藏/展示</span>
+        <span class="label">Show/Hide</span>
       </div>
       <div class="control-group" :class="{ active: activeButtons.solve }">
         <span class="key-hint">{{ shortcuts.solve?.keyName || 'Alt+~' }}</span>
-        <span class="label">一键解题</span>
+        <span class="label">Solve Now</span>
       </div>
       <div class="control-group" :class="{ active: activeButtons.clickthrough || isClickThrough }">
         <span class="key-hint">{{ shortcuts.clickthrough?.keyName || 'Alt+T' }}</span>
-        <span class="label">鼠标穿透</span>
+        <span class="label">Click Thru</span>
       </div>
       <div class="control-group" style="cursor: default;">
         <span class="key-hint">Alt+Move</span>
-        <span class="label">移动/滚动</span>
+        <span class="label">Move/Scroll</span>
       </div>
       <div class="divider"></div>
       <div class="control-group" @click="$emit('openSettings')" style="cursor: pointer;"
         @mouseenter="showSettingsTooltip" @mouseleave="hideSettingsTooltip" ref="settingsBtnRef">
-        <span class="label">⚙️ 设置</span>
+        <span class="label">⚙️ Settings</span>
       </div>
       <div class="divider"></div>
       <div class="status-group" ref="statusGroupRef" @mouseenter="showTooltip" @mouseleave="hideTooltip">
@@ -53,7 +53,7 @@
       </div>
       <div class="divider"></div>
       <div class="control-group" style="cursor: pointer;" @click="$emit('quit')">
-        <span class="label">❌ 退出</span>
+        <span class="label">❌ Quit</span>
       </div>
     </div>
   </div>
@@ -61,29 +61,29 @@
   <Teleport to="body">
     <div class="status-tooltip" v-if="showStatusTooltip" :style="tooltipStyle">
       <div class="tooltip-row">
-        <span class="tooltip-label">状态:</span>
+        <span class="tooltip-label">Status:</span>
         <span class="tooltip-value">{{ statusText }}</span>
       </div>
       <div class="tooltip-row">
-        <span class="tooltip-label">API状态:</span>
+        <span class="tooltip-label">API Status:</span>
         <span class="tooltip-value">
-          {{ statusText === '已连接' ? '✅ 接口通畅' : (statusText === 'Key无效' ? '🚫 Key无效' : (statusText === '连接失败' ? '❌ 连接失败'
-            : '未配置')) }} </span>
+          {{ statusText === 'Connected' ? '✅ Connected' : (statusText === 'Invalid Key' ? '🚫 Invalid Key' : (statusText === 'Connection Failed' ? '❌ Failed'
+            : 'Unconfigured')) }} </span>
       </div>
       <div class="tooltip-row">
-        <span class="tooltip-label">模型:</span>
+        <span class="tooltip-label">Model:</span>
         <span class="tooltip-value">{{ settings.model }}</span>
       </div>
       <div class="tooltip-row">
-        <span class="tooltip-label">隐身:</span>
+        <span class="tooltip-label">Stealth:</span>
         <span class="tooltip-value" :style="{ color: isStealthMode ? '#52c41a' : '#ff4d4f' }">
-          {{ isStealthMode ? '已开启' : '已关闭' }}
+          {{ isStealthMode ? 'On' : 'Off' }}
         </span>
       </div>
     </div>
     <div class="settings-tooltip" v-if="showSettingsTip" :style="settingsTooltipStyle">
       <div class="tooltip-warning">
-        ⚠️ 注意：打开设置将获取焦点<br>录屏期间请勿操作
+        ⚠️ Note: Settings will grab focus<br>Do not use during screen recording
       </div>
     </div>
   </Teleport>
@@ -108,30 +108,30 @@ defineEmits(['openSettings', 'quit'])
 // 根据状态文本计算状态类名
 const statusClass = computed(() => {
   const text = props.statusText || ''
-  if (text === '已连接' || text === '就绪' || text === '解题完成') return 'connected'
-  if (text.includes('未配置')) return 'unconfigured'
-  if (text.includes('无效') || text.includes('Key')) return 'invalid-key'
-  if (text.includes('失败') || text.includes('出错')) return 'disconnected'
-  if (text.includes('思考') || text.includes('复制')) return 'connected'
+  if (text === 'Connected' || text === 'Ready' || text === 'Done') return 'connected'
+  if (text.includes('Unconfigured')) return 'unconfigured'
+  if (text.includes('Invalid') || text.includes('Key')) return 'invalid-key'
+  if (text.includes('Failed') || text.includes('Error')) return 'disconnected'
+  if (text.includes('Thinking') || text.includes('Copied')) return 'connected'
   return 'unconfigured'
 })
 
 // 判断状态是否为已连接类
 const isConnectedStatus = computed(() => {
   const text = props.statusText || ''
-  return text === '已连接' || text === '就绪' || text === '解题完成' || text.includes('思考') || text.includes('复制')
+  return text === 'Connected' || text === 'Ready' || text === 'Done' || text.includes('Thinking') || text.includes('Copied')
 })
 
 // 判断是否未配置
 const isUnconfigured = computed(() => {
   const text = props.statusText || ''
-  return text.includes('未配置')
+  return text.includes('Unconfigured')
 })
 
 // 判断是否Key无效
 const isInvalidKey = computed(() => {
   const text = props.statusText || ''
-  return text.includes('无效')
+  return text.includes('Invalid')
 })
 
 const showStatusTooltip = ref(false)

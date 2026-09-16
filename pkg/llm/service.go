@@ -91,10 +91,10 @@ func CreateProvider(providerType ProviderType, cfg *config.Config) Provider {
 // TestConnection 测试模型连通性
 func (s *Service) TestConnection(ctx context.Context, apiKey, baseURL, model string) string {
 	if apiKey == "" {
-		return "API Key 不能为空"
+		return "API key cannot be empty"
 	}
 	if model == "" {
-		return "请选择模型"
+		return "Please select a model"
 	}
 
 	if baseURL == "" {

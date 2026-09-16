@@ -16,7 +16,7 @@
     <div class="left-panel" id="history-list">
       <div v-if="history.length === 0" class="history-empty">
         <span class="empty-icon">📝</span>
-        <span class="empty-text">暂无记录</span>
+        <span class="empty-text">No records</span>
       </div>
       <HistoryItem v-for="(h, idx) in history" :key="idx" :summary="getSummary(h)" :time="h.time"
         :isActive="idx === activeHistoryIndex" :isFirst="idx === 0" :previewHtml="renderMarkdown(getSummary(h))"
@@ -35,12 +35,12 @@
               <div class="thinking-header" @click="round.thinkingExpanded = !round.thinkingExpanded">
                 <div class="thinking-left">
                   <span class="thinking-icon">💭</span>
-                  <span class="thinking-title">思考中</span>
+                  <span class="thinking-title">Thinking</span>
                   <span class="thinking-duration" v-if="round.thinkingDuration">
                     {{ formatDuration(round.thinkingDuration) }}
                   </span>
                 </div>
-                <span class="thinking-toggle">{{ round.thinkingExpanded ? '收起' : '展开' }}</span>
+                <span class="thinking-toggle">{{ round.thinkingExpanded ? 'Collapse' : 'Expand' }}</span>
               </div>
               <div class="thinking-preview" v-if="!round.thinkingExpanded">
                 <div class="thinking-preview-text">{{ getThinkingPreview(round.thinking) }}</div>
@@ -56,7 +56,7 @@
         <div v-if="isThinking" class="thinking-loading">
           <div class="thinking-indicator">
             <span class="pulse-dot"></span>
-            <span class="text">正在思考中...</span>
+            <span class="text">Thinking...</span>
             <span class="thinking-timer">{{ formatDuration(thinkingTimer) }}</span>
           </div>
         </div>
@@ -65,7 +65,7 @@
           <div class="ai-icon">
             <div class="ai-icon-inner"></div>
           </div>
-          <span class="text">AI 正在回复</span>
+          <span class="text">AI is replying</span>
           <div class="wave-dots">
             <span></span><span></span><span></span>
           </div>
@@ -89,14 +89,14 @@
   <div v-if="showResumeWarning" class="modal" style="display: flex">
     <div class="resume-warning-dialog">
       <div class="warning-icon">⚠️</div>
-      <div class="warning-title">简历可能无法发送</div>
+      <div class="warning-title">Resume might not be sent</div>
       <div class="warning-message">
-        当前模型不支持 PDF，且简历未解析为 Markdown。<br />
-        继续解题将跳过简历内容。
+        The current model does not support PDF, and the resume has not been parsed as Markdown.<br />
+        Continuing will skip the resume content.
       </div>
       <div class="warning-actions">
-        <button class="btn-secondary" @click="cancelSolve">取消</button>
-        <button class="btn-primary" @click="continueSolve">继续解题</button>
+        <button class="btn-secondary" @click="cancelSolve">Cancel</button>
+        <button class="btn-primary" @click="continueSolve">Continue</button>
       </div>
     </div>
   </div>
@@ -192,7 +192,7 @@ async function selectResume() {
   if (path) {
     tempSettings.resumePath = path
     resumeState.rawContent = '' // Reset parsed content on new file
-    showToast('简历已选择', 'success')
+    showToast('Resume selected', 'success')
   }
 }
 
@@ -208,10 +208,10 @@ async function parseResume() {
   try {
     const result = await ParseResume()
     resumeState.rawContent = result
-    showToast('简历解析成功', 'success')
+    showToast('Resume parsed successfully', 'success')
   } catch (e) {
     console.error(e)
-    showToast('解析失败: ' + e, 'error')
+    showToast('Parse failed: ' + e, 'error')
   } finally {
     resumeState.isParsing = false
   }
@@ -358,14 +358,14 @@ onMounted(() => {
         delete tempShortcuts[targetAction]
       }
     } catch (e) {
-      console.error("回滚配置失败", e)
+      console.error("Failed to rollback config", e)
     }
   })
 
   EventsOn('shortcut-saved', (action) => {
     if (recordingAction.value === action) {
       recordingAction.value = null
-      showToast('快捷键已保存', 'success')
+      showToast('Shortcut saved', 'success')
     }
   })
 
@@ -393,7 +393,7 @@ onMounted(() => {
   function proceedWithSolve() {
     errorState.show = false
     flash('solve')
-    statusText.value = '正在思考...'
+    statusText.value = 'Thinking...'
     statusIcon.value = '🟡'
     mainVisible.value = true
     hasStarted.value = true
@@ -418,14 +418,14 @@ onMounted(() => {
     flash('toggle')
     isStealthMode.value = isVisibleToCapture
     if (isVisibleToCapture) {
-      showToast('隐身模式已开启 (录屏不可见)', 'info')
+      showToast('Stealth mode enabled (hidden from screen recording)', 'info')
     } else {
-      showToast('隐身模式已关闭 (录屏可见)', 'success')
+      showToast('Stealth mode disabled (visible in screen recording)', 'success')
     }
   })
 
   EventsOn('solution', (data) => {
-    statusText.value = '解题完成'
+    statusText.value = 'Solution complete'
     statusIcon.value = '📝'
     handleSolution(data)
 
@@ -433,7 +433,7 @@ onMounted(() => {
 
   EventsOn('copy-code', () => {
     const old = statusText.value
-    statusText.value = '已复制'
+    statusText.value = 'Copied'
     setTimeout(() => (statusText.value = old), 2000)
   })
 
@@ -476,8 +476,8 @@ onMounted(() => {
     }
 
     // 直接显示上游返回的错误信息
-    let title = '请求出错'
-    let desc = rawErrMsg || '未知错误'
+    let title = 'Request Error'
+    let desc = rawErrMsg || 'Unknown Error'
     let icon = '❌'
 
     // 尝试解析 JSON 格式的错误
@@ -487,14 +487,14 @@ onMounted(() => {
         desc = errObj.message
       }
       if (errObj.statusCode) {
-        title = `错误 ${errObj.statusCode}`
+        title = `Error ${errObj.statusCode}`
       }
     } catch (e) {
       // 如果不是 JSON，直接使用原始字符串
     }
 
     // 更新 UI 状态
-    statusText.value = '出错'
+    statusText.value = 'Error'
     statusIcon.value = '🔴'
     errorState.show = true
     errorState.title = title
@@ -509,7 +509,7 @@ onMounted(() => {
 
   // 抽离取消逻辑
   function handleUserCancellation() {
-    console.log('请求已由用户主动取消')
+    console.log('Request canceled by user')
 
     // 恢复状态
     if (isLoading.value) isLoading.value = true
@@ -542,14 +542,14 @@ onMounted(() => {
     }
     setStreamBuffer('')
     isLoading.value = true
-    statusText.value = '正在思考...'
+    statusText.value = 'Thinking...'
     statusIcon.value = '🟡'
   }
 
   EventsOn('require-login', () => {
     uiState.showSettings = true
     uiState.activeTab = 'account'
-    showToast('请先配置 API Key', 'warning')
+    showToast('Please configure API Key first', 'warning')
   })
 
   const mainInterface = document.getElementById('main-interface')

@@ -11,11 +11,11 @@
                         <span class="provider-name">{{ getProviderName(modelValue) }}</span>
                     </div>
                     <div class="capability-tags">
-                        <span v-if="getModelCapabilities(modelValue).image" class="cap-tag">图片</span>
+                        <span v-if="getModelCapabilities(modelValue).image" class="cap-tag">Image</span>
                         <span v-if="getModelCapabilities(modelValue).pdf" class="cap-tag">PDF</span>
                     </div>
                 </template>
-                <span v-else class="placeholder">请选择模型</span>
+                <span v-else class="placeholder">Select Model</span>
                 <span class="arrow" :class="{ rotated: isOpen }">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                         <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
@@ -29,7 +29,7 @@
                 <div v-if="isOpen" class="dropdown-list">
                     <div v-if="loading" class="loading-state">
                         <span class="loading-icon">⏳</span>
-                        <span>加载中...</span>
+                        <span>Loading...</span>
                     </div>
                     <template v-else>
                         <div v-for="model in models" :key="model" class="dropdown-item"
@@ -40,7 +40,7 @@
                                 <span class="provider-name">{{ getProviderName(model) }}</span>
                             </div>
                             <div class="capability-tags">
-                                <span v-if="getModelCapabilities(model).image" class="cap-tag">图片</span>
+                                <span v-if="getModelCapabilities(model).image" class="cap-tag">Image</span>
                                 <span v-if="getModelCapabilities(model).pdf" class="cap-tag">PDF</span>
                             </div>
                             <span v-if="modelValue === model" class="check-icon">✓</span>

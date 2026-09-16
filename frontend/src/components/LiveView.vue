@@ -6,7 +6,7 @@
         <div class="audio-bars" :class="{ active: status === 'connected' }">
           <span></span><span></span><span></span>
         </div>
-        <span class="title-text">实时助手</span>
+        <span class="title-text">Live Assistant</span>
       </div>
       <div class="header-status" :class="statusClass">
         <span class="status-dot"></span>
@@ -18,10 +18,10 @@
     <div v-if="status === 'error' && errorMsg" class="error-banner">
       <span class="error-icon">⚠️</span>
       <div class="error-content">
-        <div class="error-title">连接失败</div>
+        <div class="error-title">Connection Failed</div>
         <div class="error-message">{{ errorMsg }}</div>
       </div>
-      <button class="retry-btn" @click="retryConnection">重试</button>
+      <button class="retry-btn" @click="retryConnection">Retry</button>
     </div>
 
     <!-- 主内容区 - 双栏布局 -->
@@ -39,8 +39,8 @@
               </div>
               <span class="mic-icon">🎙️</span>
             </div>
-            <div class="empty-title">准备就绪</div>
-            <div class="empty-desc">开始说话，AI 将实时响应</div>
+            <div class="empty-title">Ready</div>
+            <div class="empty-desc">Start speaking, AI will respond in real-time</div>
           </div>
 
           <!-- 消息列表 -->
@@ -50,10 +50,10 @@
                 <div class="msg-header">
                   <div class="sender-info">
                     <span class="avatar" :class="msg.type">{{ msg.type === 'interviewer' ? 'Q' : 'A' }}</span>
-                    <span class="msg-sender">{{ msg.type === 'interviewer' ? '语音' : 'AI' }}</span>
+                    <span class="msg-sender">{{ msg.type === 'interviewer' ? 'Voice' : 'AI' }}</span>
                   </div>
                   <div class="header-right">
-                    <span v-if="msg.interrupted" class="interrupted-tag">已中断</span>
+                    <span v-if="msg.interrupted" class="interrupted-tag">Interrupted</span>
                     <span class="msg-time">{{ formatTime(msg.timestamp) }}</span>
                   </div>
                 </div>
@@ -77,12 +77,12 @@
         <div class="panel-section connection-reminder" :class="{ warning: connectionWarning }">
           <div class="section-title">
             <span class="icon">⏱️</span>
-            <span>连接状态</span>
+            <span>Connection Status</span>
           </div>
           <div class="connection-info">
             <div class="connection-status">
-              <span class="status-text">{{ connectionWarning ? '警告：连接即将超时' : '连接正常' }}</span>
-              <span class="status-hint">{{ connectionWarning ? '请准备手动切换连接' : '最长10分钟自动切换' }}</span>
+              <span class="status-text">{{ connectionWarning ? 'Warning: Connection timeout imminent' : 'Connected' }}</span>
+              <span class="status-hint">{{ connectionWarning ? 'Please prepare to switch connection manually' : 'Auto-switch after max 10 mins' }}</span>
             </div>
           </div>
         </div>
@@ -91,16 +91,16 @@
         <div class="panel-section stats">
           <div class="section-title">
             <span class="icon">📊</span>
-            <span>对话统计</span>
+            <span>Stats</span>
           </div>
           <div class="stat-grid">
             <div class="stat-item">
               <span class="stat-value">{{ conversationTurns }}</span>
-              <span class="stat-label">对话轮</span>
+              <span class="stat-label">Turns</span>
             </div>
             <div class="stat-item">
               <span class="stat-value">{{ sessionDuration }}</span>
-              <span class="stat-label">会话时长</span>
+              <span class="stat-label">Duration</span>
             </div>
           </div>
         </div>
@@ -109,10 +109,10 @@
         <div class="panel-section keywords">
           <div class="section-title">
             <span class="icon">🏷️</span>
-            <span>关键话题</span>
+            <span>Keywords</span>
           </div>
           <div class="keyword-tags">
-            <span v-if="topKeywords.length === 0" class="empty-hint">对话中会自动提取</span>
+            <span v-if="topKeywords.length === 0" class="empty-hint">Extracted automatically during conversation</span>
             <span v-for="tag in topKeywords" :key="tag" class="tag">{{ tag }}</span>
           </div>
         </div>
@@ -162,7 +162,7 @@ function createMessage(type) {
 }
 
 function formatTime(timestamp) {
-  return new Date(timestamp).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })
+  return new Date(timestamp).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
 }
 
 function escapeHtml(text) {
@@ -177,8 +177,8 @@ function renderMarkdown(text) {
 
 const statusClass = computed(() => status.value)
 const statusText = computed(() => {
-  const map = { disconnected: '等待连接', connecting: '连接中...', connected: '已连接', error: '连接失败' }
-  return map[status.value] || '未知'
+  const map = { disconnected: 'Waiting', connecting: 'Connecting...', connected: 'Connected', error: 'Connection Failed' }
+  return map[status.value] || 'Unknown'
 })
 
 function scrollToBottom() {
@@ -292,13 +292,13 @@ function stopTimers() {
 }
 
 // 关键词提取
-const stopWords = ['的', '了', '是', '在', '我', '你', '有', '这', '个', '和', '就', 'the', 'a', 'an', 'and', 'to', 'of', 'in', 'is', 'it', 'that']
+const stopWords = ['the', 'a', 'an', 'and', 'to', 'of', 'in', 'is', 'it', 'that']
 
 function extractKeywords(text) {
   if (!text) return []
 
   const words = text.toLowerCase()
-    .replace(/[^\u4e00-\u9fa5a-z\s]/g, '') // 只保留中英文
+    .replace(/[^a-z\s]/g, '') // Keep English words only.
     .split(/\s+/)
     .filter(w => w.length > 1 && !stopWords.includes(w))
 
@@ -358,7 +358,7 @@ onUnmounted(() => {
   flex-direction: column;
   height: 100%;
   pointer-events: auto;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
 }
 
 /* ===== 顶部栏 ===== */

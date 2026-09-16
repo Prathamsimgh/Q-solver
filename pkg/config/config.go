@@ -89,13 +89,13 @@ func (c *Config) ToJSON() string {
 
 func (c *Config) Validate() error {
 	if c.ScreenshotMode != "" && c.ScreenshotMode != "fullscreen" && c.ScreenshotMode != "window" {
-		return &ValidationError{Field: "screenshotMode", Message: "截图模式必须是 'fullscreen' 或 'window'"}
+		return &ValidationError{Field: "screenshotMode", Message: "Screenshot mode must be 'fullscreen' or 'window'"}
 	}
 	if c.Opacity < 0 || c.Opacity > 1 {
-		return &ValidationError{Field: "opacity", Message: "透明度必须在 0-1 之间"}
+		return &ValidationError{Field: "opacity", Message: "Opacity must be between 0 and 1"}
 	}
 	if c.CompressionQuality < 1 || c.CompressionQuality > 100 {
-		return &ValidationError{Field: "compressionQuality", Message: "压缩质量必须在 1-100 之间"}
+		return &ValidationError{Field: "compressionQuality", Message: "Compression quality must be between 1 and 100"}
 	}
 	return nil
 }

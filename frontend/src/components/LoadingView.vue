@@ -7,7 +7,7 @@
         <div class="ring ring-2"></div>
       </div>
       <div class="loading-text">
-        <span class="text">深度思考中</span>
+        <span class="text">Thinking deeply</span>
         <span class="timer">{{ formattedTime }}</span>
       </div>
     </div>

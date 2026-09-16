@@ -20,15 +20,15 @@
                 </svg>
             </div>
             <div class="header-content">
-                <h3>模型服务商</h3>
-                <p>配置 AI 大脑连接 (Provider Configuration)</p>
+                <h3>Model Provider</h3>
+                <p>Configure AI brain connection (Provider Configuration)</p>
             </div>
         </div>
 
         <div class="config-form">
             <!-- Provider Selection -->
             <div class="form-item">
-                <label class="item-label">选择服务商 <span class="sub-label">Model Provider</span></label>
+                <label class="item-label">Select Provider <span class="sub-label">Model Provider</span></label>
                 <div class="control-wrapper provider-wrapper">
                     <ProviderDropdown :modelValue="provider" @update:modelValue="$emit('update:provider', $event)" />
                 </div>
@@ -36,7 +36,7 @@
 
             <!-- API Key -->
             <div class="form-item">
-                <label class="item-label">API 密钥 <span class="sub-label">Secret Key</span></label>
+                <label class="item-label">API Key <span class="sub-label">Secret Key</span></label>
                 <div class="input-wrapper">
                     <span class="input-icon">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@
 
             <!-- Base URL -->
             <div class="form-item" v-if="provider === 'custom'">
-                <label class="item-label">代理地址 <span class="sub-label">Base URL</span></label>
+                <label class="item-label">Base URL <span class="sub-label">Base URL</span></label>
                 <div class="input-wrapper">
                     <span class="input-icon">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,7 +72,7 @@
         <div class="panel-footer">
             <span class="status-dot" :class="{ active: apiKey }"></span>
             <span class="footer-text">
-                {{ apiKey ? 'API Key 已配置' : '请填写 API Key 以启用服务' }}
+                {{ apiKey ? 'API Key Configured' : 'Please enter API Key to enable service' }}
             </span>
         </div>
     </div>

@@ -15,7 +15,7 @@
       <!-- 标题区域 -->
       <div class="title-section">
         <h1 class="main-title">Q-SOLVER</h1>
-        <p class="subtitle">智能答题助手 · 即刻开始</p>
+        <p class="subtitle">Intelligent Answer Assistant · Start Now</p>
       </div>
 
       <!-- 状态区域 -->
@@ -24,14 +24,14 @@
         <div v-if="initStatus !== 'ready'" class="status-loading" key="loading">
           <div class="loading-spinner"></div>
           <span class="loading-text">
-            {{ initStatus === 'loading-model' ? '正在加载模型...' : '系统初始化中...' }}
+            {{ initStatus === 'loading-model' ? 'Loading model...' : 'Initializing system...' }}
           </span>
         </div>
 
         <!-- 就绪后显示成功过渡 -->
         <div v-else-if="showSuccess" class="status-success" key="success">
           <div class="success-icon">✓</div>
-          <span class="success-text">系统就绪</span>
+          <span class="success-text">System Ready</span>
         </div>
 
         <!-- 快捷键卡片 -->
@@ -42,7 +42,7 @@
               <div class="card-icon">📸</div>
               <div class="card-info">
                 <kbd class="card-key">{{ solveShortcut }}</kbd>
-                <span class="card-label">一键解题</span>
+                <span class="card-label">Solve Now</span>
               </div>
             </div>
           </div>
@@ -52,7 +52,7 @@
               <div class="card-icon">👁</div>
               <div class="card-info">
                 <kbd class="card-key">{{ toggleShortcut }}</kbd>
-                <span class="card-label">隐藏窗口</span>
+                <span class="card-label">Hide Window</span>
               </div>
             </div>
           </div>
@@ -61,7 +61,7 @@
 
       <!-- 底部提示 -->
       <div v-if="initStatus === 'ready' && !showSuccess" class="bottom-hint">
-        按快捷键开始使用
+        Press shortcut to start
       </div>
     </div>
   </div>

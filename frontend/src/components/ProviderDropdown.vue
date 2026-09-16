@@ -10,7 +10,7 @@
                         <span class="model-name">{{ getName(modelValue) }}</span>
                     </div>
                 </template>
-                <span v-else class="placeholder">请选择提供商</span>
+                <span v-else class="placeholder">Select Provider</span>
                 <span class="arrow" :class="{ rotated: isOpen }">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                         <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
@@ -63,7 +63,7 @@ const providers = [
     { value: 'openai', label: 'OpenAI', logo: PROVIDER_LOGOS.openai },
     { value: 'anthropic', label: 'Anthropic (Claude)', logo: PROVIDER_LOGOS.anthropic },
     { value: 'deepseek', label: 'DeepSeek', logo: PROVIDER_LOGOS.deepseek },
-    { value: 'custom', label: '自定义 (Custom)', logo: PROVIDER_LOGOS.custom }
+    { value: 'custom', label: 'Custom', logo: PROVIDER_LOGOS.custom }
 ]
 
 function toggle() {

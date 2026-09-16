@@ -6,7 +6,7 @@
     
     <!-- 极简模式：只保留快捷键提示 -->
     <div class="error-shortcut-hint" style="margin-top: 20px;">
-      按下 <span class="shortcut-tag">{{ solveShortcut }}</span> 重试
+      Press <span class="shortcut-tag">{{ solveShortcut }}</span> to retry
     </div>
   </div>
 </template>

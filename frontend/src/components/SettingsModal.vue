@@ -3,20 +3,20 @@
     <div class="modal-content">
       <div class="modal-warning-banner"
         style="background: rgba(255, 169, 64, 0.15); border: 1px solid rgba(255, 169, 64, 0.3); border-radius: 50px; padding: 6px 20px; color: #ffc069; font-size: 12px; display: flex; align-items: center; justify-content: center; margin: 12px auto 4px auto; width: fit-content;">
-        ⚠️ 当前窗口已获取焦点，关闭设置后将自动恢复防抢焦模式
+        ⚠️ The current window has focus. Anti-focus snatching mode will automatically restore after closing settings.
       </div>
       <div class="modal-header">
         <div class="tabs">
           <div class="tab" :class="{ active: activeTab === 'general' }" @click="activeTab = 'general'">
-            常规设置</div>
-          <div class="tab" :class="{ active: activeTab === 'model' }" @click="activeTab = 'model'">模型设置
+            General</div>
+          <div class="tab" :class="{ active: activeTab === 'model' }" @click="activeTab = 'model'">Model
           </div>
-          <div class="tab" :class="{ active: activeTab === 'params' }" @click="activeTab = 'params'">生成参数</div>
-          <div class="tab" :class="{ active: activeTab === 'screenshot' }" @click="activeTab = 'screenshot'">截图设置</div>
+          <div class="tab" :class="{ active: activeTab === 'params' }" @click="activeTab = 'params'">Params</div>
+          <div class="tab" :class="{ active: activeTab === 'screenshot' }" @click="activeTab = 'screenshot'">Screenshot</div>
           <div class="tab" :class="{ active: activeTab === 'resume' }" @click="activeTab = 'resume'">
-            简历设置</div>
+            Resume</div>
           <div class="tab" :class="{ active: activeTab === 'account' }" @click="activeTab = 'account'">
-            提供商</div>
+            Provider</div>
         </div>
         <span class="close-btn" @click="$emit('close')">&times;</span>
       </div>
@@ -29,14 +29,14 @@
         <div v-show="activeTab === 'model'">
           <div class="form-group">
             <div class="model-header">
-              <label>模型选择</label>
+              <label>Select Model</label>
               <div class="model-actions">
                 <button class="btn-icon" @click="$emit('refresh-models')"
-                  :disabled="isLoadingModels || !tempSettings.apiKey" title="刷新模型列表">
+                  :disabled="isLoadingModels || !tempSettings.apiKey" title="Refresh Models">
                   <span :class="{ spin: isLoadingModels }">🔄</span>
                 </button>
                 <button class="btn-icon" @click="$emit('test-connection')"
-                  :disabled="isTestingConnection || !tempSettings.model" title="测试模型连通性">
+                  :disabled="isTestingConnection || !tempSettings.model" title="Test Connection">
                   <span :class="{ spin: isTestingConnection }">{{ isTestingConnection ? '⏳' : '▶️'
                   }}</span>
                 </button>
@@ -51,23 +51,23 @@
             </div>
 
             <p v-if="!tempSettings.apiKey" class="hint-text warning-hint">
-              ⚠️ 请先填写 API Key
+              ⚠️ Please enter API Key first
             </p>
           </div>
 
           <div class="form-group">
             <div class="prompt-header">
-              <label for="prompt-text" style="margin-bottom: 0">系统提示词 (Prompt)</label>
+              <label for="prompt-text" style="margin-bottom: 0">System Prompt</label>
               <div class="prompt-tabs">
-                <div class="prompt-tab" :class="{ active: promptTab === 'edit' }" @click="promptTab = 'edit'">编辑
+                <div class="prompt-tab" :class="{ active: promptTab === 'edit' }" @click="promptTab = 'edit'">Edit
                 </div>
-                <div class="prompt-tab" :class="{ active: promptTab === 'preview' }" @click="promptTab = 'preview'">预览
+                <div class="prompt-tab" :class="{ active: promptTab === 'preview' }" @click="promptTab = 'preview'">Preview
                 </div>
               </div>
             </div>
 
             <textarea v-show="promptTab === 'edit'" id="prompt-text" class="prompt-textarea" rows="10"
-              v-model="tempSettings.prompt" placeholder="请输入提示词 (支持 Markdown)..."></textarea>
+              v-model="tempSettings.prompt" placeholder="Enter system prompt (Markdown supported)..."></textarea>
 
             <div v-show="promptTab === 'preview'" class="prompt-preview markdown-body" v-html="renderedPrompt">
             </div>
@@ -85,8 +85,8 @@
             <div class="context-setting">
               <div class="setting-row">
                 <div class="setting-info">
-                  <span class="setting-title">保存上下文</span>
-                  <span class="setting-desc">开启后，每次对话将包含之前的历史记录</span>
+                  <span class="setting-title">Keep Context</span>
+                  <span class="setting-desc">Include previous history in each new conversation</span>
                 </div>
                 <label class="switch">
                   <input type="checkbox" v-model="tempSettings.keepContext">
@@ -96,8 +96,8 @@
 
               <div class="setting-row" style="margin-top: 12px;">
                 <div class="setting-info">
-                  <span class="setting-title">启用 Live API 模式</span>
-                  <span class="setting-desc">采集扬声器声音，实时识别面试官问题并回答</span>
+                  <span class="setting-title">Enable Live API Mode</span>
+                  <span class="setting-desc">Capture audio to answer questions in real-time</span>
                 </div>
                 <label class="switch">
                   <input type="checkbox" v-model="tempSettings.useLiveApi">
@@ -108,7 +108,7 @@
           </div>
 
           <div class="form-group">
-            <label>快捷键配置 (点击录制)</label>
+            <label>Shortcut Configuration (Click to Record)</label>
             <div class="shortcut-list">
               <div class="shortcut-item" v-for="key in shortcutActions" :key="key.action">
                 <span>{{ key.label }}</span>
@@ -122,7 +122,7 @@
           </div>
 
           <div class="form-group">
-            <label for="opacity-slider">窗口透明度: <span>{{ Math.round(tempSettings.transparency * 100) }}%</span></label>
+            <label for="opacity-slider">Window Opacity: <span>{{ Math.round(tempSettings.transparency * 100) }}%</span></label>
             <input type="range" id="opacity-slider" min="0.0" max="1.0" step="0.05"
               v-model.number="tempSettings.transparency" />
           </div>
@@ -141,7 +141,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn-primary" @click="$emit('save')">保存</button>
+        <button class="btn-primary" @click="$emit('save')">Save</button>
       </div>
     </div>
   </div>

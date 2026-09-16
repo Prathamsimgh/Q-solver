@@ -3,9 +3,9 @@
         <div class="empty-glow"></div>
         <div class="empty-content">
             <div class="empty-icon">💡</div>
-            <h3 class="empty-title">准备就绪</h3>
+            <h3 class="empty-title">Ready</h3>
             <p class="empty-desc">
-                按 <kbd class="shortcut-key">{{ shortcut }}</kbd> 截图开始提问
+                Press <kbd class="shortcut-key">{{ shortcut }}</kbd> to capture and ask
             </p>
         </div>
     </div>
