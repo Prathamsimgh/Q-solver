@@ -1,6 +1,31 @@
 # Q-Solver
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-q--solver.vercel.app-58a6ff?style=flat-square)](https://q-solver.vercel.app)
+
 Q-Solver is an intelligent AI assistant that captures content from your screen and uses powerful AI models (Google Gemini, OpenAI, Claude, DeepSeek) to provide instant answers.
+
+## Quick Start
+
+**Prerequisites:** Go (v1.21+), Node.js (v18+), and the Wails CLI — see [Prerequisites](#prerequisites) below for the full setup (including MinGW/GCC on Windows).
+
+```bash
+git clone https://github.com/Prathamsimgh/Q-solver.git
+cd Q-solver
+
+# Install frontend dependencies
+cd frontend && npm install && cd ..
+
+# Install the Wails CLI
+go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+# Optional: pre-configure an API key (or set it later in the app's settings UI)
+cp config/config.example.json config/config.json
+
+# Run in development mode (hot reload)
+wails dev
+```
+
+Prefer a scripted setup? `./install.sh` runs the install steps for you (frontend dependencies, Go modules, Wails CLI, config file).
 
 ## Features
 
