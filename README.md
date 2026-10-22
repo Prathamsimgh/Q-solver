@@ -1,6 +1,7 @@
 # Q-Solver
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-q--solver.vercel.app-58a6ff?style=flat-square)](https://q-solver.vercel.app)
+[![XERJ Corpus Hub contributor](https://hub.xerj.org/contributors/Prathamsimgh/badge.svg)](https://hub.xerj.org/contributors/Prathamsimgh)
 
 Q-Solver is an intelligent AI assistant that captures content from your screen and uses powerful AI models (Google Gemini, OpenAI, Claude, DeepSeek) to provide instant answers.
 
